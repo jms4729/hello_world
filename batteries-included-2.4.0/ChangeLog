@@ -1,0 +1,161 @@
+Changelog
+---------
+
+## v2.4.0
+
+- BatBitSet: use Bytes instead of String
+  (Gabriel Scherer)
+- BatHashtbl: fix hash computation bug introduced by 4.01 (issue #609)
+  (Gabriel Scherer, report by Martin Neuhäußer)
+- BatText: synchronize nsplit to match BatString.nsplit
+  (Gabriel Scherer)
+- BatLazyList: fix remove_all_such documentation
+  (Xavier Van de Woestyne)
+- BatMap: add pop_min_binding: 'a t -> (key * 'a) * 'a t
+	  and pop_max_binding: 'a t -> (key * 'a) * 'a t
+  (Francois Berenger)
+- BatMap: add at_rank_exn: int -> ('key, 'a) t -> ('key * 'a)
+	  and update: key -> key -> 'a -> 'a t -> 'a t
+  (Francois Berenger)
+- BatEnum: add interleave: 'a t array -> 'a t
+  (Aleksey Z. Arens)
+- BatFormat: expose asprintf for V>=4.01
+  (Ralf Vogler)
+- BatSet: add at_rank_exn: int -> t -> elt
+	  and update: elt -> elt -> t -> t
+  (Francois Berenger)
+- BatUTF8: add enum: t -> BatUChar.t BatEnum.t
+  (Kevin Brubeck Unhammer)
+- BatSet: add to_array: t -> elt array
+	  and of_array: elt array -> t
+	  and test for to_list
+  (Francois Berenger)
+- BatSet: add pop_max: 'a t -> 'a * 'a t
+	  and pop_min: 'a t -> 'a * 'a t
+  (Francois Berenger)
+- BatSplay: hardened against read-only-data compiler optimization
+  (Gabriel Scherer)
+- BatList: simplified interleave implementation
+  (Francois Berenger)
+- BatOption: add Infix.(>>=): 'a option -> ('a -> 'b option) -> 'b option
+  (Herry Herry)
+- BatHashtbl: modify now have same semantics than replace for the key
+  (Anders Fugmann)
+- BatHashtbl: more efficient modify_opt and modify_def
+  (Anders Fugmann)
+- BatFormat: add pp_print_list: ?pp_sep:(formatter -> unit -> unit) ->
+	                        (formatter -> 'a -> unit) ->
+	                        (formatter -> 'a list -> unit)
+	     and pp_print_text: formatter -> string -> unit
+  (Christoph Höger)
+- BatEnum: add uniq_by: ('a -> 'a -> bool) -> 'a t -> 'a t
+	   and uniqq: 'a t -> 'a t
+  (Max Mouratov)
+- BatEnum: fix uniq to use structural comparison
+  (Max Mouratov)
+- BatUnix: add run_and_read: string -> process_status * string
+  (Francois Berenger)
+- BatCache: use hashmap to speed up lru_cache
+  (Sang Kil Cha)
+- BatQueue: add filter: ('a -> bool) -> 'a t -> 'a t
+	    and filter_inplace: ('a -> bool) -> 'a t -> unit
+	    and filter_map: ('a -> 'b option) -> 'a t -> 'b t
+  (Gabriel Scherer)
+
+## v2.3.0
+
+- improved test coverage
+  (Simon Cruanes and Xavier Van de Woestyne)
+- Enum: bugfix in clamp
+  (Simon Cruanes)
+- Stream: add concat_map
+  (Gabriel Radanne)
+- List: fix a stack-overflow bug in transpose
+  (Gabriel Scherer)
+- List: add unfold_exc : (unit -> a) -> 'a list * exn
+  (François Berenger)
+- List: add fold_righti and fold_lefti
+  (François Berenger)
+- Substring : fix fold_left, add fold_lefti, fold_righti
+  (Xavier Van de Woestyne)
+- String : add fold_lefti and fold_righti
+  (Xavier Van de Woestyne)
+- Set.Make: add of_list
+  (Jacques-Pascal Deplaix)
+- AvlTree: add (check : 'a tree -> bool) to check well-formedness
+  (Simon Cruanes)
+- Hashtbl: make modify_opt/def resize the table to preserve amortized costs
+  (Mads Hartmann, report by user 'jj-issuu')
+- Enum: fix combine's count in presence of infinite enums
+  (Gabriel Scherer, report by user 'mwnx')
+- Makefile: add a qtest-byte target
+  (Gabriel Scherer)
+- List: add modify_opt_at: int -> ('a -> 'a option) -> 'a list -> 'a list
+  (Gabriel Scherer)
+- List: add modify_at: int -> ('a -> 'a) -> 'a list -> 'a list
+  (Gabriel Scherer)
+- List: add remove_at: int -> 'a list -> 'a list
+  (François Berenger)
+- Int: add copysign
+  (Simon Cruanes)
+- Deque: add rotate_forward, rotate_backward : 'a dq -> 'a dq
+  (Max Mouratov)
+- Int: fix overflow checking in Safe_int.mul
+  (Max Mouratov, Christopher Zimmermann)
+- add a local OPAM description, allows to use
+    opam pin add batteries git@github.com:ocaml-batteries-team/batteries-included.git
+  (Vincent Bernardoff)
+- Queue: add map : ('a -> 'b) -> 'a t -> 'b t
+  (Christopher Zimmermann)
+- compatibility with 4.02:
+  + Printf: remove CamlinternalPr for OCaml versions >= 4.02
+    (Ralf Vogler)
+  + Printf: legacy code assumed (string = fmt)
+    (Gabriel Scherer)
+  + new 4.02 functions:
+      String.mapi (String.init was already in Batteries)
+      List.sort_uniq (List.sort_unique existed before)
+      Array.make_float (less efficient implementation provided for <4.02 versions)
+      a BatBytes module relying on ocamlfind's compatibility module
+      bytes-related functions in Buffer,Digest,Marshal,Printexc,Stream,Unix
+      new Printexc callstack interface (not available for <4.02 versions)
+    (Gabriel Scherer)
+
+
+## v2.2.0
+
+- cartesian product in batSet
+- Enum.concat_map alias
+- UChar.is_ascii
+- equality and enumeration (from, to UChar enum) in batText
+- String.find_all function
+- Seq.iteri, mapi, iter2, map2 (see issue #417)
+- cartesian product of enums (issue #442)
+- List.subset
+- Array.bsearch dichotomic search (issue #433)
+- Enum.print_at_most (issue #425)
+- BatOption.ord instance, (issue #393)
+- Fix infinite loop in BitSet
+- Levenshtein distance on strings
+- Seq.{of_list, equal}
+- basic .merlin file for merlin users
+- BatDeque.eq function to compare Deques by content
+- BatteriesExceptionless
+- More explicit overridding of ocamlbuild rules, use batteries.mllib
+- Add Kahan summation (numerically-accurate sum of floats) to List,Array,Enum
+- Add BatOption.some
+- (text) improve element indexing in BatList's mli documentation
+- Add BatList.filteri_map
+- Compatibility with ocaml 4.01
+- Add BatList.filteri
+- Add Set.split_lt and split_le
+- Add split_opt wherever there is split
+- Add List.range
+- Add the new O_CLOEXEC flag to Unix.open_flag in version 4.01
+- Fix BatMutex.DebugMutex.id is always 0.
+- Simplify List.partition code
+- Add List.ntake and List.takedrop
+- Added List.Acc.create and use it
+- Add a LazyList.eager_fold_right alias to LazyList.fold_right, with sane argument order
+- and many tests and documentation
+- cleanup of whitespace
